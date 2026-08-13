@@ -4,6 +4,7 @@ This private repository is the canonical source for shared agent instructions an
 
 Repository-specific instructions remain in each consuming repository.
 The templates in `templates/` synchronize this repository to `origin/main`, load the global instructions, and select the relevant workflow skills.
+The CI templates load the paired-instructions guard from this repository at runtime so guard fixes remain centralized.
 
 ## Pilot installation
 
