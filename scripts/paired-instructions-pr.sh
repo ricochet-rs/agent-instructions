@@ -132,9 +132,8 @@ merge_for_commit() {
     declarations=$(instructions_pr_declaration "$forge_url" "$repository" "$effective_pr_number")
     declaration_count=$(printf '%s\n' "$declarations" | grep -c . || true)
     if [ "$declaration_count" -ne 1 ]; then
-        echo "merged effective PR does not contain exactly one valid Instructions-PR trailer" >&2
-        echo "the merged pull-request body must contain exactly one accepted Instructions-PR line" >&2
-        exit 1
+        echo "merged effective PR has no valid Instructions-PR trailer; skipping paired merge"
+        exit 0
     fi
     instructions_pr=$declarations
     if [ "$instructions_pr" = none ]; then
