@@ -17,6 +17,7 @@ Keep a lesson only when all of these are true:
 
 Do not turn implementation details, one-off failures, or the PR summary into instructions.
 Write nothing when the session produced no durable lesson.
+Record the result in the effective pull-request body as `Instructions-PR: none` when no shared instruction change is needed.
 
 ## Record lessons
 
@@ -26,3 +27,4 @@ Keep repository-specific facts in the repository and reusable organization guida
 Ensure every modified instruction remains true after the code change.
 
 After the retrospective, draft the PR description from the final diff and validation evidence.
+When shared guidance changed, include the paired instructions pull-request URL using the exact `Instructions-PR:` trailer required by `digesting-review-feedback`.
