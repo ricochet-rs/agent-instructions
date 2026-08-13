@@ -29,6 +29,7 @@ Do not change instruction files when the review contains no new durable lesson.
 ## Pair pull requests
 
 Every effective pull request must declare the retrospective result.
+The organization pull-request template supplies only this declaration and does not replace the `session-retro` skill when drafting the description.
 
 When durable shared guidance changes:
 
