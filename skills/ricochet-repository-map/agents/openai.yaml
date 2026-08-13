@@ -1,0 +1,4 @@
+interface:
+  display_name: "Ricochet Repository Map"
+  short_description: "Navigate Ricochet repositories and ownership"
+  default_prompt: "Use $ricochet-repository-map to identify the repositories involved in this Ricochet change."
