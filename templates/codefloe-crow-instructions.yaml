@@ -5,9 +5,6 @@ when:
     branch:
       - ${CI_REPO_DEFAULT_BRANCH}
 
-labels:
-  agent: thumper
-
 steps:
   paired-pr:
     when:
@@ -16,11 +13,14 @@ steps:
     image: reg.ricochet.rs/docker.io/library/alpine:3.24
     environment:
       GH_TOKEN:
-        from_secret: agent_instructions_token
-      FORGE_TOKEN:
         from_secret:
           integration: 1
           path: github/pat/agent_instructions_token
+          key: token
+      FORGE_TOKEN:
+        from_secret:
+          integration: 1
+          path: codefloe/pat/ricochet-bot/main
           key: token
     commands:
       - apk add -q --no-cache curl git github-cli jq
@@ -35,11 +35,14 @@ steps:
     image: reg.ricochet.rs/docker.io/library/alpine:3.24
     environment:
       GH_TOKEN:
-        from_secret: agent_instructions_token
-      FORGE_TOKEN:
         from_secret:
           integration: 1
           path: github/pat/agent_instructions_token
+          key: token
+      FORGE_TOKEN:
+        from_secret:
+          integration: 1
+          path: codefloe/pat/ricochet-bot/main
           key: token
     commands:
       - apk add -q --no-cache curl git github-cli jq
