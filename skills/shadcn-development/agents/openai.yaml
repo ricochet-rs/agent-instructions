@@ -1,0 +1,4 @@
+interface:
+  display_name: "shadcn Development"
+  short_description: "Build and maintain Ricochet shadcn interfaces"
+  default_prompt: "Use $shadcn-development to implement this interface with the project's existing shadcn components."
