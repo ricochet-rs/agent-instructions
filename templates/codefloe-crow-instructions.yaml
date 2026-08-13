@@ -5,9 +5,6 @@ when:
     branch:
       - ${CI_REPO_DEFAULT_BRANCH}
 
-labels:
-  agent: thumper
-
 steps:
   paired-pr:
     when:
