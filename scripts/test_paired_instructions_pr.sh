@@ -32,7 +32,11 @@ chmod +x "$temporary_directory/gh"
 
 cat >"$temporary_directory/curl" <<'EOF'
 #!/bin/sh
-jq -n --arg body "${MOCK_BODY:-}" --arg html_url "${MOCK_EFFECTIVE_URL:-https://codefloe.com/ricochet/example/pulls/1}" '{body: $body, html_url: $html_url}'
+jq -n \
+    --arg body "${MOCK_BODY:-}" \
+    --arg html_url "${MOCK_EFFECTIVE_URL:-https://codefloe.com/ricochet/example/pulls/1}" \
+    --argjson merged "${MOCK_MERGED:-false}" \
+    '{body: $body, html_url: $html_url, merged: $merged}'
 EOF
 chmod +x "$temporary_directory/curl"
 
@@ -70,3 +74,4 @@ run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BOD
 run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_STATE=MERGED "$script" check https://github.com ricochet-rs/example 1
 run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_MERGEABLE=CONFLICTING "$script" check https://github.com ricochet-rs/example 1
 run_case 1 "exactly one matching Origin-PR trailer" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_PAIRED_BODY="Origin-PR: https://github.com/ricochet-rs/other/pull/2" "$script" check https://github.com ricochet-rs/example 1
+run_case 1 "no merged effective PR found" env FORGE_TOKEN=test "$script" merge-for-commit https://codefloe.com ricochet/example abc123

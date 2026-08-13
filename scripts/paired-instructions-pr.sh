@@ -113,7 +113,8 @@ merge_for_commit() {
                 ;;
             *)
                 effective_pr=$(curl -fsS -H "Authorization: token $FORGE_TOKEN" \
-                    "$forge_url/api/v1/repos/$repository/commits/$commit/pull" | jq -r .html_url)
+                    "$forge_url/api/v1/repos/$repository/commits/$commit/pull" |
+                    jq -r 'select(.merged == true) | .html_url')
                 ;;
         esac
         if [ -n "$effective_pr" ] && [ "$effective_pr" != null ]; then
