@@ -3,7 +3,7 @@ when:
   - event: pull_request_edited
   - event: push
     branch:
-      - ${CI_REPO_DEFAULT_BRANCH}
+      - main
 
 steps:
   paired-pr:
@@ -31,7 +31,7 @@ steps:
     when:
       - event: push
         branch:
-          - ${CI_REPO_DEFAULT_BRANCH}
+          - main
     image: reg.ricochet.rs/docker.io/library/alpine:3.24
     environment:
       GH_TOKEN:
