@@ -6,6 +6,7 @@ repository_root=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 
 python3 -m json.tool "$repository_root/.codex-plugin/plugin.json" >/dev/null
 sh -n "$repository_root/scripts/bootstrap.sh"
+sh -n "$repository_root/scripts/paired-instructions-pr.sh"
 
 for skill_path in "$repository_root"/skills/*; do
     skill_name=$(sed -n '2s/^name: //p' "$skill_path/SKILL.md")
