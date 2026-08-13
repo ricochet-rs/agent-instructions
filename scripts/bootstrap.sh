@@ -12,11 +12,11 @@ checkout="$cache_root/ricochet-rs/agent-instructions"
 
 if [ ! -d "$checkout/.git" ]; then
     mkdir -p "$cache_root/ricochet-rs"
-    git clone --filter=blob:none git@github.com:ricochet-rs/agent-instructions.git "$checkout"
+    git clone --filter=blob:none https://github.com/ricochet-rs/agent-instructions.git "$checkout"
 fi
 
 actual_origin=$(git -C "$checkout" remote get-url origin)
-if [ "$actual_origin" != "git@github.com:ricochet-rs/agent-instructions.git" ]; then
+if [ "$actual_origin" != "https://github.com/ricochet-rs/agent-instructions.git" ]; then
     echo "unexpected agent instructions origin: $actual_origin" >&2
     exit 1
 fi

@@ -17,10 +17,12 @@ steps:
     environment:
       GH_TOKEN:
         from_secret: agent_instructions_token
+      FORGE_TOKEN:
+        from_secret: agent_instructions_forge_token
     commands:
-      - apk add -q --no-cache git github-cli jq
+      - apk add -q --no-cache curl git github-cli jq
       - git clone -q --depth=1 https://github.com/ricochet-rs/agent-instructions.git /tmp/agent-instructions
-      - /tmp/agent-instructions/scripts/paired-instructions-pr.sh check https://github.com "$${CI_REPO}" "$${CI_COMMIT_PULL_REQUEST}"
+      - /tmp/agent-instructions/scripts/paired-instructions-pr.sh check https://codefloe.com "$${CI_REPO}" "$${CI_COMMIT_PULL_REQUEST}"
 
   merge-paired-pr:
     when:
@@ -31,7 +33,9 @@ steps:
     environment:
       GH_TOKEN:
         from_secret: agent_instructions_token
+      FORGE_TOKEN:
+        from_secret: agent_instructions_forge_token
     commands:
-      - apk add -q --no-cache git github-cli jq
+      - apk add -q --no-cache curl git github-cli jq
       - git clone -q --depth=1 https://github.com/ricochet-rs/agent-instructions.git /tmp/agent-instructions
-      - /tmp/agent-instructions/scripts/paired-instructions-pr.sh merge-for-commit https://github.com "$${CI_REPO}" "$${CI_COMMIT_SHA}"
+      - /tmp/agent-instructions/scripts/paired-instructions-pr.sh merge-for-commit https://codefloe.com "$${CI_REPO}" "$${CI_COMMIT_SHA}"
