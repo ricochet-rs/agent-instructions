@@ -14,11 +14,11 @@ jobs:
       GH_TOKEN: ${{ secrets.agent_instructions_token }}
     steps:
       - name: Load shared instructions
-        run: gh repo clone ricochet-rs/agent-instructions "$RUNNER_TEMP/agent-instructions" -- --depth=1
+        run: git clone --quiet --depth=1 https://github.com/ricochet-rs/agent-instructions.git "$RUNNER_TEMP/agent-instructions"
       - name: Validate paired instructions PR
         run: >-
           "$RUNNER_TEMP/agent-instructions/scripts/paired-instructions-pr.sh"
-          check "$GITHUB_REPOSITORY" "${{ github.event.pull_request.number }}"
+          check https://github.com "$GITHUB_REPOSITORY" "${{ github.event.pull_request.number }}"
 
   merge-paired-pr:
     if: github.event_name == 'push'
@@ -27,8 +27,8 @@ jobs:
       GH_TOKEN: ${{ secrets.agent_instructions_token }}
     steps:
       - name: Load shared instructions
-        run: gh repo clone ricochet-rs/agent-instructions "$RUNNER_TEMP/agent-instructions" -- --depth=1
+        run: git clone --quiet --depth=1 https://github.com/ricochet-rs/agent-instructions.git "$RUNNER_TEMP/agent-instructions"
       - name: Merge paired instructions PR
         run: >-
           "$RUNNER_TEMP/agent-instructions/scripts/paired-instructions-pr.sh"
-          merge-for-commit "$GITHUB_REPOSITORY" "$GITHUB_SHA"
+          merge-for-commit https://github.com "$GITHUB_REPOSITORY" "$GITHUB_SHA"

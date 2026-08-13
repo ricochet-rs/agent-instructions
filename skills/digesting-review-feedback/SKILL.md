@@ -38,8 +38,10 @@ When durable shared guidance changes:
 3. Add this exact trailer on its own line to the instructions pull-request body:
 
 ```text
-Origin-PR: https://github.com/ricochet-rs/<repository>/pull/<number>
+Origin-PR: <effective-pull-request-url>
 ```
+
+Use the canonical URL from either `github.com/ricochet-rs` or `codefloe.com/ricochet`.
 
 4. Add this exact trailer on its own line to the effective pull-request body:
 

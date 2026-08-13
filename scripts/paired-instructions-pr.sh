@@ -4,10 +4,32 @@ set -eu
 
 instructions_repository=ricochet-rs/agent-instructions
 
+effective_pr_details() {
+    forge_url=$1
+    effective_repository=$2
+    effective_pr=$3
+
+    case "$forge_url" in
+        https://github.com)
+            gh pr view "$effective_pr" --repo "$effective_repository" --json body,url
+            ;;
+        *)
+            if [ -z "${FORGE_TOKEN:-}" ]; then
+                echo "FORGE_TOKEN is required for $forge_url" >&2
+                exit 1
+            fi
+            curl -fsS -H "Authorization: token $FORGE_TOKEN" \
+                "$forge_url/api/v1/repos/$effective_repository/pulls/$effective_pr" |
+                jq '{body: .body, url: .html_url}'
+            ;;
+    esac
+}
+
 instructions_pr_declaration() {
-    effective_repository=$1
-    effective_pr=$2
-    body=$(gh pr view "$effective_pr" --repo "$effective_repository" --json body --jq .body)
+    forge_url=$1
+    effective_repository=$2
+    effective_pr=$3
+    body=$(effective_pr_details "$forge_url" "$effective_repository" "$effective_pr" | jq -r .body)
     printf '%s\n' "$body" | awk '
         $0 == "Instructions-PR: none" { print "none" }
         $0 ~ /^Instructions-PR: https:\/\/github.com\/ricochet-rs\/agent-instructions\/pull\/[0-9]+$/ {
@@ -36,7 +58,7 @@ verify_instructions_pr() {
     draft=$(printf '%s' "$details" | jq -r .isDraft)
     state=$(printf '%s' "$details" | jq -r .state)
     origins=$(printf '%s' "$details" | jq -r .body | awk '
-        /^Origin-PR: https:\/\/github.com\/ricochet-rs\/[A-Za-z0-9._-]+\/pull\/[0-9]+$/ {
+        /^Origin-PR: https:\/\/(github.com\/ricochet-rs|codefloe.com\/ricochet)\/[A-Za-z0-9._-]+\/(pull|pulls)\/[0-9]+$/ {
             sub(/^Origin-PR: /, "")
             print
         }
@@ -55,12 +77,17 @@ verify_instructions_pr() {
 }
 
 check_pr() {
-    effective_repository=$1
-    effective_pr=$2
-    declarations=$(instructions_pr_declaration "$effective_repository" "$effective_pr")
+    forge_url=$1
+    effective_repository=$2
+    effective_pr=$3
+    details=$(effective_pr_details "$forge_url" "$effective_repository" "$effective_pr")
+    declarations=$(instructions_pr_declaration "$forge_url" "$effective_repository" "$effective_pr")
     declaration_count=$(printf '%s\n' "$declarations" | grep -c . || true)
     if [ "$declaration_count" -ne 1 ]; then
         echo "effective PR must contain exactly one valid Instructions-PR trailer" >&2
+        echo "add one of these exact lines to the pull-request body:" >&2
+        echo "Instructions-PR: none" >&2
+        echo "Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/<number>" >&2
         exit 1
     fi
     instructions_pr=$declarations
@@ -68,18 +95,27 @@ check_pr() {
         echo "effective PR declares no shared instruction change"
         exit 0
     fi
-    effective_pr_url=$(gh pr view "$effective_pr" --repo "$effective_repository" --json url --jq .url)
+    effective_pr_url=$(printf '%s' "$details" | jq -r .url)
     verify_instructions_pr "$instructions_pr" "$effective_pr_url"
     echo "paired instructions PR is conflict free: $instructions_pr"
 }
 
 merge_for_commit() {
-    repository=$1
-    commit=$2
+    forge_url=$1
+    repository=$2
+    commit=$3
     attempt=1
     effective_pr=
     while [ "$attempt" -le 5 ]; do
-        effective_pr=$(gh api "repos/$repository/commits/$commit/pulls" --jq 'map(select(.merged_at != null)) | first | .html_url')
+        case "$forge_url" in
+            https://github.com)
+                effective_pr=$(gh api "repos/$repository/commits/$commit/pulls" --jq 'map(select(.merged_at != null)) | first | .html_url')
+                ;;
+            *)
+                effective_pr=$(curl -fsS -H "Authorization: token $FORGE_TOKEN" \
+                    "$forge_url/api/v1/repos/$repository/commits/$commit/pull" | jq -r .html_url)
+                ;;
+        esac
         if [ -n "$effective_pr" ] && [ "$effective_pr" != null ]; then
             break
         fi
@@ -91,10 +127,12 @@ merge_for_commit() {
         exit 1
     fi
 
-    declarations=$(instructions_pr_declaration "$repository" "$effective_pr")
+    effective_pr_number=${effective_pr##*/}
+    declarations=$(instructions_pr_declaration "$forge_url" "$repository" "$effective_pr_number")
     declaration_count=$(printf '%s\n' "$declarations" | grep -c . || true)
     if [ "$declaration_count" -ne 1 ]; then
         echo "merged effective PR does not contain exactly one valid Instructions-PR trailer" >&2
+        echo "the merged pull-request body must contain exactly one accepted Instructions-PR line" >&2
         exit 1
     fi
     instructions_pr=$declarations
@@ -110,21 +148,21 @@ merge_for_commit() {
 
 case "${1:-}" in
     check)
-        if [ "$#" -ne 3 ]; then
-            echo "usage: $0 check <repository> <effective-pr>" >&2
+        if [ "$#" -ne 4 ]; then
+            echo "usage: $0 check <forge-url> <repository> <effective-pr>" >&2
             exit 2
         fi
-        check_pr "$2" "$3"
+        check_pr "$2" "$3" "$4"
         ;;
     merge-for-commit)
-        if [ "$#" -ne 3 ]; then
-            echo "usage: $0 merge-for-commit <repository> <commit>" >&2
+        if [ "$#" -ne 4 ]; then
+            echo "usage: $0 merge-for-commit <forge-url> <repository> <commit>" >&2
             exit 2
         fi
-        merge_for_commit "$2" "$3"
+        merge_for_commit "$2" "$3" "$4"
         ;;
     *)
-        echo "usage: $0 {check <repository> <effective-pr>|merge-for-commit <repository> <commit>}" >&2
+        echo "usage: $0 {check <forge-url> <repository> <effective-pr>|merge-for-commit <forge-url> <repository> <commit>}" >&2
         exit 2
         ;;
 esac

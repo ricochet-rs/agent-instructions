@@ -3,7 +3,7 @@
 Before inspecting repository files, planning, editing, or running project commands, ensure the shared instructions are available.
 
 1. Use `~/.cache/ricochet-rs/agent-instructions` as the shared checkout.
-2. If the checkout is absent, clone `git@github.com:ricochet-rs/agent-instructions.git` there.
+2. If the checkout is absent, clone `https://github.com/ricochet-rs/agent-instructions.git` there.
 3. Fetch `origin/main` and check it out in detached-HEAD mode.
 4. Verify that cached `HEAD` exactly matches `origin/main`.
 5. Verify that `instructions/global.md`, `.codex-plugin/plugin.json`, and every selected `SKILL.md` exist.
