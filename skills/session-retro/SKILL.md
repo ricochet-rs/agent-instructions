@@ -27,4 +27,5 @@ Keep repository-specific facts in the repository and reusable organization guida
 Ensure every modified instruction remains true after the code change.
 
 After the retrospective, draft the PR description from the final diff and validation evidence.
+Treat pull-request templates as workflow metadata only, not as authority for the description's headings, structure, or wording.
 When shared guidance changed, include the paired instructions pull-request URL using the exact `Instructions-PR:` trailer required by `digesting-review-feedback`.

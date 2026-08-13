@@ -29,20 +29,27 @@ Do not change instruction files when the review contains no new durable lesson.
 ## Pair pull requests
 
 Every effective pull request must declare the retrospective result.
+The organization pull-request template supplies only this declaration and does not replace the `session-retro` skill when drafting the description.
 
 When durable shared guidance changes:
 
 1. Create or update a branch and pull request in `ricochet-rs/agent-instructions`.
 2. Make the instructions pull request ready for review before the effective pull request can merge.
-3. Add this exact trailer on its own line to the effective pull-request body:
+3. Add this exact trailer on its own line to the instructions pull-request body:
+
+```text
+Origin-PR: https://github.com/ricochet-rs/<repository>/pull/<number>
+```
+
+4. Add this exact trailer on its own line to the effective pull-request body:
 
 ```text
 Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/<number>
 ```
 
-4. Run the effective repository's paired-instructions check.
-5. Update the instructions branch from shared `main` until GitHub reports it mergeable without conflicts.
-6. Re-run the check after every update to either pull request.
+5. Run the effective repository's paired-instructions check.
+6. Update the instructions branch from shared `main` until GitHub reports it mergeable without conflicts.
+7. Re-run the check after every update to either pull request.
 
 Do not merge the instructions pull request before the effective code pull request.
 When the effective pull request merges, its default-branch CI merges the paired instructions pull request.
