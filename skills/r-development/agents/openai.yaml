@@ -1,0 +1,4 @@
+interface:
+  display_name: "R Development"
+  short_description: "Develop and validate Ricochet R code"
+  default_prompt: "Use $r-development to implement and validate this R change."

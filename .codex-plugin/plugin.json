@@ -1,0 +1,18 @@
+{
+  "name": "agent-instructions",
+  "version": "0.1.0",
+  "description": "Shared development workflows for ricochet-rs repositories.",
+  "author": {
+    "name": "ricochet-rs"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Instructions",
+    "shortDescription": "Use shared ricochet-rs development workflows.",
+    "longDescription": "Agent Instructions provides shared development workflows for ricochet-rs repositories.",
+    "developerName": "ricochet-rs",
+    "category": "Productivity",
+    "capabilities": [],
+    "defaultPrompt": "Apply the relevant ricochet-rs development workflow to this task."
+  }
+}

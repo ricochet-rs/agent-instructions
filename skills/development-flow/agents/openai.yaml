@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development Flow"
+  short_description: "Run the Ricochet development workflow"
+  default_prompt: "Use $development-flow to implement and validate this change."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Rust Development"
+  short_description: "Develop and validate Ricochet Rust code"
+  default_prompt: "Use $rust-development to implement and validate this Rust change."

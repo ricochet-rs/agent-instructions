@@ -1,0 +1,4 @@
+interface:
+  display_name: "Python Development"
+  short_description: "Develop and validate Ricochet Python code"
+  default_prompt: "Use $python-development to implement and validate this Python change."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "TypeScript Development"
+  short_description: "Develop Ricochet TypeScript with Bun"
+  default_prompt: "Use $typescript-development to implement and validate this TypeScript change."
