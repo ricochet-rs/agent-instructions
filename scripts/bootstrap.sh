@@ -2,26 +2,13 @@
 
 set -eu
 
-if [ "$#" -ne 1 ]; then
-    echo "usage: $0 <revision>" >&2
+if [ "$#" -ne 0 ]; then
+    echo "usage: $0" >&2
     exit 2
 fi
 
-revision=$1
 cache_root=${XDG_CACHE_HOME:-"$HOME/.cache"}
 checkout="$cache_root/ricochet-rs/agent-instructions"
-
-case "$revision" in
-    *[!0-9a-f]* | "")
-        echo "agent instructions revision must be a full hexadecimal commit SHA" >&2
-        exit 2
-        ;;
-esac
-
-if [ "${#revision}" -ne 40 ]; then
-    echo "agent instructions revision must contain 40 characters" >&2
-    exit 2
-fi
 
 if [ ! -d "$checkout/.git" ]; then
     mkdir -p "$cache_root/ricochet-rs"
@@ -39,8 +26,8 @@ if [ -n "$(git -C "$checkout" status --porcelain)" ]; then
     exit 1
 fi
 
-git -C "$checkout" fetch --quiet origin "$revision"
-git -C "$checkout" checkout --quiet --detach "$revision"
+git -C "$checkout" fetch --quiet origin main
+git -C "$checkout" checkout --quiet --detach origin/main
 
 for required_path in instructions/global.md .codex-plugin/plugin.json skills/development-flow/SKILL.md; do
     if [ ! -f "$checkout/$required_path" ]; then
@@ -50,8 +37,9 @@ for required_path in instructions/global.md .codex-plugin/plugin.json skills/dev
 done
 
 resolved_revision=$(git -C "$checkout" rev-parse HEAD)
-if [ "$resolved_revision" != "$revision" ]; then
-    echo "resolved revision does not match requested revision" >&2
+origin_revision=$(git -C "$checkout" rev-parse origin/main)
+if [ "$resolved_revision" != "$origin_revision" ]; then
+    echo "cached HEAD does not match origin/main" >&2
     exit 1
 fi
 
