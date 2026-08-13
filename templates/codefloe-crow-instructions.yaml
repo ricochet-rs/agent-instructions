@@ -16,7 +16,10 @@ steps:
     image: reg.ricochet.rs/docker.io/library/alpine:3.24
     environment:
       GH_TOKEN:
-        from_secret: agent_instructions_token
+        from_secret:
+          integration: 1
+          path: github/pat/agent_instructions_token
+          key: token
       FORGE_TOKEN:
         from_secret:
           integration: 1
@@ -35,7 +38,10 @@ steps:
     image: reg.ricochet.rs/docker.io/library/alpine:3.24
     environment:
       GH_TOKEN:
-        from_secret: agent_instructions_token
+        from_secret:
+          integration: 1
+          path: github/pat/agent_instructions_token
+          key: token
       FORGE_TOKEN:
         from_secret:
           integration: 1
