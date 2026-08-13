@@ -1,0 +1,15 @@
+config:
+  line-length: false
+  no-duplicate-heading:
+    siblings_only: true
+  first-line-h1: false
+  ol-prefix: false
+  single-title: false
+  no-inline-html:
+    allowed_elements:
+      - details
+      - summary
+
+globs:
+  - "**/*.md"
+  - "!**/.git/**"

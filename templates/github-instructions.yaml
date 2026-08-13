@@ -6,11 +6,20 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: instructions-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   paired-pr:
+    name: Validate paired instructions PR
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     env:
+      EFFECTIVE_PR: ${{ github.event.pull_request.number }}
       GH_TOKEN: ${{ secrets.agent_instructions_token }}
     steps:
       - name: Load shared instructions
@@ -18,9 +27,10 @@ jobs:
       - name: Validate paired instructions PR
         run: >-
           "$RUNNER_TEMP/agent-instructions/scripts/paired-instructions-pr.sh"
-          check https://github.com "$GITHUB_REPOSITORY" "${{ github.event.pull_request.number }}"
+          check https://github.com "$GITHUB_REPOSITORY" "$EFFECTIVE_PR"
 
   merge-paired-pr:
+    name: Merge paired instructions PR
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     env:

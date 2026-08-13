@@ -4,21 +4,19 @@ set -eu
 
 repository_root=$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)
 
-python3 -m json.tool "$repository_root/.codex-plugin/plugin.json" >/dev/null
-sh -n "$repository_root/scripts/bootstrap.sh"
-sh -n "$repository_root/scripts/paired-instructions-pr.sh"
-
-for skill_path in "$repository_root"/skills/*; do
-    skill_name=$(sed -n '2s/^name: //p' "$skill_path/SKILL.md")
-    if [ "$skill_name" != "$(basename "$skill_path")" ]; then
-        echo "skill name does not match its directory: $skill_path" >&2
-        exit 1
-    fi
-    if ! sed -n '3p' "$skill_path/SKILL.md" | grep -q '^description: .'; then
-        echo "skill description is missing: $skill_path" >&2
-        exit 1
-    fi
+for script_path in "$repository_root"/scripts/*.sh; do
+    sh -n "$script_path"
 done
+
+shellcheck -s sh "$repository_root"/scripts/*.sh
+python3 "$repository_root/scripts/validate_resources.py"
+"$repository_root/scripts/test_paired_instructions_pr.sh"
+
+if command -v crow >/dev/null 2>&1; then
+    crow lint --strict "$repository_root/.crow/"
+    crow lint --strict "$repository_root/templates/crow-instructions.yaml"
+    crow lint --strict "$repository_root/templates/codefloe-crow-instructions.yaml"
+fi
 
 placeholder='[''TODO:'
 if rg -n --fixed-strings "$placeholder" "$repository_root"; then
