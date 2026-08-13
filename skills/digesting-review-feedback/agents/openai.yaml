@@ -1,0 +1,4 @@
+interface:
+  display_name: "Digest Review Feedback"
+  short_description: "Turn human review into durable guidance"
+  default_prompt: "Use $digesting-review-feedback to apply this review and preserve its durable lessons."
