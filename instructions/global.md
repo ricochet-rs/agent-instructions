@@ -17,6 +17,11 @@ Work on one task at a time and validate it before moving on.
 Read only files directly needed for the current step.
 Treat an interruption as a correction and continue the active task.
 Never manage Git unless the user explicitly requests it.
+Do not abandon an active task after applying a user correction.
+Do not say "You're right" or "You're absolutely right".
+
+After human review, read and follow `skills/digesting-review-feedback/SKILL.md` from this checkout.
+Before writing a pull-request description, read and follow `skills/session-retro/SKILL.md` from this checkout.
 
 ## Design
 
@@ -24,6 +29,8 @@ Extend the existing implementation instead of adding a parallel structure that p
 Connect new types to the existing domain model.
 Prefer a smaller, cohesive implementation over speculative abstractions.
 Name functions for what they do.
+Refactor when the requested change exposes a clear quality improvement within scope.
+When a change makes an instruction file inaccurate, correct it in the same pull request.
 
 ## Commits and pull requests
 
@@ -38,6 +45,17 @@ Write one sentence per line in Markdown and other prose files.
 Do not hard-wrap sentences.
 Do not use em dashes in user-facing text.
 Put code-block comments on their own line above the command.
+
+Names should carry the explanation in code.
+Use comments for information a name cannot express.
+Use module-level documentation when it explains the purpose of a module.
+Keep method documentation to one concise line whenever possible.
+Do not use comments to narrate history, justify what code does not do, or recount the bug that motivated a change.
+Comment surprising script and Containerfile behavior rather than routine commands or package lists.
+Do not generalize a review request beyond the code or comment it addresses.
+
+Do not use em dashes in user-facing text.
+Write two sentences, or use a comma, colon, or parentheses.
 
 ## Validation
 

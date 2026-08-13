@@ -1,0 +1,4 @@
+interface:
+  display_name: "Session Retrospective"
+  short_description: "Preserve hard-won session lessons"
+  default_prompt: "Use $session-retro to preserve durable lessons before opening this pull request."
