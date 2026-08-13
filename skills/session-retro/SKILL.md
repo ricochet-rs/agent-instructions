@@ -29,3 +29,26 @@ Ensure every modified instruction remains true after the code change.
 After the retrospective, draft the PR description from the final diff and validation evidence.
 Treat pull-request templates as workflow metadata only, not as authority for the description's headings, structure, or wording.
 When shared guidance changed, include the paired instructions pull-request URL using the exact `Instructions-PR:` trailer required by `digesting-review-feedback`.
+
+## Format the description
+
+Start with exactly one standalone sentence summarizing the change and its outcome.
+Do not put a heading before this sentence.
+
+Put all supporting explanation, material changes, and validation evidence in a collapsed details block using this exact structure:
+
+```markdown
+One-sentence summary.
+
+<details>
+<summary>AI Summary</summary>
+
+Supporting details and validation evidence.
+
+</details>
+
+Instructions-PR: none
+```
+
+Keep workflow trailers outside the details block, each on its own line.
+When handing a description to a person instead of writing it directly, provide the raw Markdown in a fenced block so it can be pasted unchanged.
