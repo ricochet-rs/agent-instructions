@@ -13,10 +13,15 @@ checkout="$cache_root/ricochet-rs/agent-instructions"
 
 case "$revision" in
     *[!0-9a-f]* | "")
-        echo "agent instructions revision must be a hexadecimal commit SHA" >&2
+        echo "agent instructions revision must be a full hexadecimal commit SHA" >&2
         exit 2
         ;;
 esac
+
+if [ "${#revision}" -ne 40 ]; then
+    echo "agent instructions revision must contain 40 characters" >&2
+    exit 2
+fi
 
 if [ ! -d "$checkout/.git" ]; then
     mkdir -p "$cache_root/ricochet-rs"
@@ -45,12 +50,9 @@ for required_path in instructions/global.md .codex-plugin/plugin.json skills/dev
 done
 
 resolved_revision=$(git -C "$checkout" rev-parse HEAD)
-case "$resolved_revision" in
-    "$revision"*) ;;
-    *)
-        echo "resolved revision does not match requested revision" >&2
-        exit 1
-        ;;
-esac
+if [ "$resolved_revision" != "$revision" ]; then
+    echo "resolved revision does not match requested revision" >&2
+    exit 1
+fi
 
 echo "$checkout"
