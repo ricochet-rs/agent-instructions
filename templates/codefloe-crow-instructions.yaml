@@ -18,7 +18,10 @@ steps:
       GH_TOKEN:
         from_secret: agent_instructions_token
       FORGE_TOKEN:
-        from_secret: agent_instructions_forge_token
+        from_secret:
+          integration: 1
+          path: github/pat/agent_instructions_token
+          key: token
     commands:
       - apk add -q --no-cache curl git github-cli jq
       - git clone -q --depth=1 https://github.com/ricochet-rs/agent-instructions.git /tmp/agent-instructions
@@ -34,7 +37,10 @@ steps:
       GH_TOKEN:
         from_secret: agent_instructions_token
       FORGE_TOKEN:
-        from_secret: agent_instructions_forge_token
+        from_secret:
+          integration: 1
+          path: github/pat/agent_instructions_token
+          key: token
     commands:
       - apk add -q --no-cache curl git github-cli jq
       - git clone -q --depth=1 https://github.com/ricochet-rs/agent-instructions.git /tmp/agent-instructions
