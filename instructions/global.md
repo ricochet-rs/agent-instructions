@@ -47,6 +47,12 @@ Do not hard-wrap sentences.
 Do not use em dashes in user-facing text.
 Put code-block comments on their own line above the command.
 
+For user-facing release notes, use section and area headings to classify changes.
+Write each item as one bullet containing one complete sentence that leads with the user-visible behavior or outcome in present tense.
+Do not prefix an item with a bold title or a colon-separated label that restates the sentence.
+Use bold only for a literal UI label, command, or named feature that readers must recognize, and incorporate it naturally into the sentence.
+Omit maintenance, CI, dependency update, and internal refactor entries unless they change user-visible behavior.
+
 Names should carry the explanation in code.
 Use comments for information a name cannot express.
 Use module-level documentation when it explains the purpose of a module.
