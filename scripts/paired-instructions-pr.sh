@@ -134,8 +134,8 @@ merge_for_commit() {
         sleep 2
     done
     if [ -z "$effective_pr" ] || [ "$effective_pr" = null ]; then
-        echo "no merged effective PR found for $commit" >&2
-        exit 1
+        echo "no merged effective PR found for $commit; skipping paired merge"
+        exit 0
     fi
 
     effective_pr_number=${effective_pr##*/}
