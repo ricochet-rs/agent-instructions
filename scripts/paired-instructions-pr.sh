@@ -148,21 +148,27 @@ merge_for_commit() {
 
 case "${1:-}" in
     check)
-        if [ "$#" -ne 4 ]; then
-            echo "usage: $0 check <forge-url> <repository> <effective-pr>" >&2
-            exit 2
-        fi
-        check_pr "$2" "$3" "$4"
+        case "$#" in
+            3) check_pr https://github.com "$2" "$3" ;;
+            4) check_pr "$2" "$3" "$4" ;;
+            *)
+                echo "usage: $0 check [<forge-url>] <repository> <effective-pr>" >&2
+                exit 2
+                ;;
+        esac
         ;;
     merge-for-commit)
-        if [ "$#" -ne 4 ]; then
-            echo "usage: $0 merge-for-commit <forge-url> <repository> <commit>" >&2
-            exit 2
-        fi
-        merge_for_commit "$2" "$3" "$4"
+        case "$#" in
+            3) merge_for_commit https://github.com "$2" "$3" ;;
+            4) merge_for_commit "$2" "$3" "$4" ;;
+            *)
+                echo "usage: $0 merge-for-commit [<forge-url>] <repository> <commit>" >&2
+                exit 2
+                ;;
+        esac
         ;;
     *)
-        echo "usage: $0 {check <forge-url> <repository> <effective-pr>|merge-for-commit <forge-url> <repository> <commit>}" >&2
+        echo "usage: $0 {check [<forge-url>] <repository> <effective-pr>|merge-for-commit [<forge-url>] <repository> <commit>}" >&2
         exit 2
         ;;
 esac
