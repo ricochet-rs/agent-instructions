@@ -37,6 +37,7 @@ When a change makes an instruction file inaccurate, correct it in the same pull 
 Use Conventional Commit titles in the imperative present tense.
 Use `feat`, `fix`, `refactor`, `chore`, `docs`, `style`, `test`, `perf`, or `ci` unless a repository defines additional types.
 Do not bypass commit hooks.
+Do not create draft pull requests.
 Use GitHub tooling for repositories hosted in the `ricochet-rs` organization.
 
 ## Prose
