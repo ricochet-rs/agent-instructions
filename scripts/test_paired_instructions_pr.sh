@@ -23,7 +23,10 @@ case "$*" in
             '{baseRefName: $baseRefName, body: $body, isDraft: $isDraft, mergeable: $mergeable, state: $state}'
         ;;
     *"api repos/"*"/commits/"*"/pulls"*)
-        printf 'null\n'
+        printf '%s\n' "${MOCK_COMMIT_PR:-null}"
+        ;;
+    *"--json state --jq .state"*)
+        printf '%s\n' "${MOCK_STATE:-OPEN}"
         ;;
     *)
         echo "unexpected gh invocation: $*" >&2
@@ -81,3 +84,4 @@ run_case 1 "exactly one matching Origin-PR trailer" env MOCK_BODY="Instructions-
 run_case 1 "no merged effective PR found" env FORGE_TOKEN=test "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 1 "no merged effective PR found" "$script" merge-for-commit ricochet-rs/example abc123
 run_case 0 "skipping paired merge" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="" "$script" merge-for-commit https://codefloe.com ricochet/example abc123
+run_case 0 "paired instructions PR is already merged" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_COMMIT_PR="https://github.com/ricochet-rs/example/pull/1" MOCK_STATE=MERGED "$script" merge-for-commit ricochet-rs/example abc123

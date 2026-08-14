@@ -42,12 +42,17 @@ instructions_pr_declaration() {
 verify_instructions_pr() {
     instructions_pr=$1
     expected_origin=$2
+    expected_state=${3:-OPEN}
     attempt=1
 
     while [ "$attempt" -le 5 ]; do
         details=$(gh pr view "$instructions_pr" --json baseRefName,body,isDraft,mergeable,state)
         mergeable=$(printf '%s' "$details" | jq -r .mergeable)
-        if [ "$mergeable" != UNKNOWN ]; then
+        state=$(printf '%s' "$details" | jq -r .state)
+        if [ "$expected_state" = MERGED ] && [ "$state" = MERGED ]; then
+            break
+        fi
+        if [ "$expected_state" = OPEN ] && [ "$mergeable" != UNKNOWN ]; then
             break
         fi
         attempt=$((attempt + 1))
@@ -56,7 +61,6 @@ verify_instructions_pr() {
 
     base=$(printf '%s' "$details" | jq -r .baseRefName)
     draft=$(printf '%s' "$details" | jq -r .isDraft)
-    state=$(printf '%s' "$details" | jq -r .state)
     origins=$(printf '%s' "$details" | jq -r .body | awk '
         /^Origin-PR: https:\/\/(github.com\/ricochet-rs|codefloe.com\/ricochet)\/[A-Za-z0-9._-]+\/(pull|pulls)\/[0-9]+$/ {
             sub(/^Origin-PR: /, "")
@@ -65,8 +69,14 @@ verify_instructions_pr() {
     ')
     origin_count=$(printf '%s\n' "$origins" | grep -c . || true)
 
-    if [ "$base" != main ] || [ "$draft" != false ] || [ "$state" != OPEN ] || [ "$mergeable" != MERGEABLE ]; then
-        echo "paired instructions PR must be open, ready, target main, and be conflict free: $instructions_pr" >&2
+    if [ "$expected_state" = OPEN ]; then
+        if [ "$base" != main ] || [ "$draft" != false ] || [ "$state" != OPEN ] || [ "$mergeable" != MERGEABLE ]; then
+            echo "paired instructions PR must be open, ready, target main, and be conflict free: $instructions_pr" >&2
+            echo "$details" >&2
+            exit 1
+        fi
+    elif [ "$base" != main ] || [ "$draft" != false ] || [ "$state" != MERGED ]; then
+        echo "paired instructions PR must be merged, ready, and target main: $instructions_pr" >&2
         echo "$details" >&2
         exit 1
     fi
@@ -141,6 +151,12 @@ merge_for_commit() {
         exit 0
     fi
 
+    instructions_state=$(gh pr view "$instructions_pr" --repo "$instructions_repository" --json state --jq .state)
+    if [ "$instructions_state" = MERGED ]; then
+        verify_instructions_pr "$instructions_pr" "$effective_pr" MERGED
+        echo "paired instructions PR is already merged: $instructions_pr"
+        exit 0
+    fi
     verify_instructions_pr "$instructions_pr" "$effective_pr"
     instructions_head=$(gh pr view "$instructions_pr" --repo "$instructions_repository" --json headRefOid --jq .headRefOid)
     gh pr merge "$instructions_pr" --repo "$instructions_repository" --squash --delete-branch --match-head-commit "$instructions_head"
