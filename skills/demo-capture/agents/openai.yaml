@@ -1,0 +1,4 @@
+interface:
+  display_name: "Demo Capture"
+  short_description: "Record a change as screenshots or a GIF"
+  default_prompt: "Use $demo-capture to record this change from a running build."
