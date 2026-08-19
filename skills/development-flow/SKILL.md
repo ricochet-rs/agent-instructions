@@ -31,3 +31,4 @@ Report commands that were not run and why.
 Lead with the result.
 Describe material behavior changes and validation evidence.
 Do not claim success from inspection alone when an executable check is available.
+Read `skills/session-retro/SKILL.md` before drafting a pull-request description, and follow its body format and its `Instructions-PR:` trailer.
