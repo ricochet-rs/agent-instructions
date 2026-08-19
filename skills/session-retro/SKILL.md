@@ -17,7 +17,7 @@ Keep a lesson only when all of these are true:
 
 Do not turn implementation details, one-off failures, or the PR summary into instructions.
 Write nothing when the session produced no durable lesson.
-Record the result in the effective pull-request body as `Instructions-PR: none` when no shared instruction change is needed.
+Omit the `Instructions-PR:` trailer from the effective pull-request body when no shared instruction change is needed.
 
 ## Record lessons
 
@@ -46,9 +46,8 @@ One-sentence summary.
 Supporting details and validation evidence.
 
 </details>
-
-Instructions-PR: none
 ```
 
+Add the `Instructions-PR:` trailer below the details block only when a paired instructions pull request exists.
 Keep workflow trailers outside the details block, each on its own line.
 When handing a description to a person instead of writing it directly, provide the raw Markdown in a fenced block so it can be pasted unchanged.
