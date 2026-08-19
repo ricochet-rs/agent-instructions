@@ -8,8 +8,7 @@ Before inspecting repository files, planning, editing, or running project comman
 4. Verify that cached `HEAD` exactly matches `origin/main`.
 5. Verify that `instructions/global.md`, `.codex-plugin/plugin.json`, and every selected `SKILL.md` exist.
 6. Read `instructions/global.md`.
-7. Read and follow `skills/development-flow/SKILL.md` for code changes.
-8. Read the applicable language skills according to the repository manifests and files involved.
+7. Read the applicable language skills according to the repository manifests and files involved.
 
 The shared skills may not appear in the startup skill catalog.
 Read their `SKILL.md` files directly from the shared checkout and follow them for the current session.

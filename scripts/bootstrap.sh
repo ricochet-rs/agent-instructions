@@ -29,7 +29,7 @@ fi
 git -C "$checkout" fetch --quiet origin main
 git -C "$checkout" checkout --quiet --detach origin/main
 
-for required_path in instructions/global.md .codex-plugin/plugin.json skills/development-flow/SKILL.md; do
+for required_path in instructions/global.md .codex-plugin/plugin.json; do
     if [ ! -f "$checkout/$required_path" ]; then
         echo "required agent instructions file is missing: $required_path" >&2
         exit 1

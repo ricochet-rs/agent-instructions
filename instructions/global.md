@@ -11,17 +11,15 @@ Do not add AI attribution trailers or generated-by footers to commits, pull requ
 
 ## Planning and execution
 
-Provide a plan before writing code.
-Scope the plan to the immediate next step.
-Work on one task at a time and validate it before moving on.
-Read only files directly needed for the current step.
-Treat an interruption as a correction and continue the active task.
+State a plan for the immediate next step before writing code.
+Read only files directly needed for that step.
+Complete one coherent change and validate it before starting another.
+Treat an interruption as a correction, apply it, and continue the active task.
 Never manage Git unless the user explicitly requests it.
-Do not abandon an active task after applying a user correction.
 Do not say "You're right" or "You're absolutely right".
 
 After human review, read and follow `skills/digesting-review-feedback/SKILL.md` from this checkout.
-Before writing a pull-request description, read and follow `skills/session-retro/SKILL.md` from this checkout.
+Before writing a pull-request description, read and follow `skills/session-retro/SKILL.md` from this checkout, including its body format and its `Instructions-PR:` trailer.
 
 ## Design
 
@@ -45,6 +43,7 @@ Use GitHub tooling for repositories hosted in the `ricochet-rs` organization.
 Write one sentence per line in Markdown and other prose files.
 Do not hard-wrap sentences.
 Do not use em dashes in user-facing text.
+Write two sentences, or use a comma, colon, or parentheses.
 Put code-block comments on their own line above the command.
 
 For user-facing release notes, use section and area headings to classify changes.
@@ -61,14 +60,18 @@ Do not use comments to narrate history, justify what code does not do, or recoun
 Comment surprising script and Containerfile behavior rather than routine commands or package lists.
 Do not generalize a review request beyond the code or comment it addresses.
 
-Do not use em dashes in user-facing text.
-Write two sentences, or use a comma, colon, or parentheses.
-
 ## Validation
 
-Use repository-provided `just` commands when available.
-Run formatters, linters, compilation checks, and relevant tests before declaring completion.
+Use repository-provided commands such as `just`, formatters, linters, and test targets.
+Run the narrowest useful check during iteration and the repository-required full check before completion.
+Report commands that were not run and why.
 Do not leave a repository in a known invalid state.
+
+## Reporting
+
+Lead with the result.
+Describe material behavior changes and validation evidence.
+Do not claim success from inspection alone when an executable check is available.
 
 ## Safety
 
