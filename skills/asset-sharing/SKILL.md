@@ -37,7 +37,7 @@ It uploads to the default folder from the secret unless `--folder-id` names anot
 Useful flags:
 
 | Flag | Effect |
-|------|--------|
+| ------ | -------- |
 | `--folder-id ID` | Upload into a specific WorkDrive folder instead of the configured default. |
 | `--name NAME` | Set the share link's display name instead of using the file name. |
 | `--no-download` | Create a view only link that external viewers cannot download. |
