@@ -71,10 +71,11 @@ run_case() {
 script="$repository_root/scripts/paired-instructions-pr.sh"
 run_case 0 "declares no shared instruction change" env MOCK_BODY="Instructions-PR: none" "$script" check ricochet-rs/example 1
 run_case 0 "declares no shared instruction change" env MOCK_BODY="Instructions-PR: none" "$script" check https://github.com ricochet-rs/example 1
-run_case 1 "exactly one valid" env MOCK_BODY="" "$script" check https://github.com ricochet-rs/example 1
-run_case 1 "exactly one valid" env MOCK_BODY="Instructions-PR: none
+run_case 0 "declares no shared instruction change" env MOCK_BODY="" "$script" check https://github.com ricochet-rs/example 1
+run_case 0 "declares no shared instruction change" env MOCK_BODY="unrelated body" "$script" check https://github.com ricochet-rs/example 1
+run_case 1 "at most one valid" env MOCK_BODY="Instructions-PR: none
 Instructions-PR: none" "$script" check https://github.com ricochet-rs/example 1
-run_case 1 "exactly one valid" env MOCK_BODY="Instructions-PR: #10" "$script" check https://github.com ricochet-rs/example 1
+run_case 1 "at most one valid" env MOCK_BODY="Instructions-PR: #10" "$script" check https://github.com ricochet-rs/example 1
 run_case 0 "declares no shared instruction change" env FORGE_TOKEN=test MOCK_BODY="Instructions-PR: none" "$script" check https://codefloe.com ricochet/example 1
 run_case 0 "is conflict free" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" "$script" check https://github.com ricochet-rs/example 1
 run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_DRAFT=true "$script" check https://github.com ricochet-rs/example 1
@@ -83,5 +84,6 @@ run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BOD
 run_case 1 "exactly one matching Origin-PR trailer" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_PAIRED_BODY="Origin-PR: https://github.com/ricochet-rs/other/pull/2" "$script" check https://github.com ricochet-rs/example 1
 run_case 0 "skipping paired merge" env FORGE_TOKEN=test "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 0 "skipping paired merge" "$script" merge-for-commit ricochet-rs/example abc123
-run_case 0 "skipping paired merge" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="" "$script" merge-for-commit https://codefloe.com ricochet/example abc123
+run_case 0 "declares no shared instruction change" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="" "$script" merge-for-commit https://codefloe.com ricochet/example abc123
+run_case 0 "skipping paired merge" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="Instructions-PR: #10" "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 0 "paired instructions PR is already merged" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_COMMIT_PR="https://github.com/ricochet-rs/example/pull/1" MOCK_STATE=MERGED "$script" merge-for-commit ricochet-rs/example abc123
