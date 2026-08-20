@@ -28,7 +28,7 @@ Do not change instruction files when the review contains no new durable lesson.
 
 ## Pair pull requests
 
-Every effective pull request must declare the retrospective result.
+An effective pull request declares a paired instructions pull request only when shared guidance changed.
 The organization pull-request template supplies only this declaration and does not replace the `session-retro` skill when drafting the description.
 
 When durable shared guidance changes:
@@ -57,10 +57,6 @@ Do not merge the instructions pull request before the effective code pull reques
 When the effective pull request merges, its default-branch CI merges the paired instructions pull request.
 If the automatic merge fails, report it immediately and leave the instructions pull request open for recovery.
 
-When the retrospective finds no durable shared guidance, add this exact trailer instead:
-
-```text
-Instructions-PR: none
-```
-
-Do not omit the trailer.
+When the retrospective finds no durable shared guidance, omit the trailer.
+An absent trailer means no paired instructions pull request exists.
+The explicit `Instructions-PR: none` line remains accepted, and a malformed or repeated trailer still fails the check.

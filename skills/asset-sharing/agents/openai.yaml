@@ -1,0 +1,4 @@
+interface:
+  display_name: "Asset Sharing"
+  short_description: "Publish demo assets and return a link"
+  default_prompt: "Use $asset-sharing to upload this screenshot or recording and give me a shareable link."

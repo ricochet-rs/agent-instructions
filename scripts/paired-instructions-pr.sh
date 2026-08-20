@@ -31,10 +31,15 @@ instructions_pr_declaration() {
     effective_pr=$3
     body=$(effective_pr_details "$forge_url" "$effective_repository" "$effective_pr" | jq -r .body)
     printf '%s\n' "$body" | awk '
-        $0 == "Instructions-PR: none" { print "none" }
-        $0 ~ /^Instructions-PR: https:\/\/github.com\/ricochet-rs\/agent-instructions\/pull\/[0-9]+$/ {
-            sub(/^Instructions-PR: /, "")
-            print
+        /^Instructions-PR:/ {
+            if ($0 == "Instructions-PR: none") {
+                print "none"
+            } else if ($0 ~ /^Instructions-PR: https:\/\/github.com\/ricochet-rs\/agent-instructions\/pull\/[0-9]+$/) {
+                sub(/^Instructions-PR: /, "")
+                print
+            } else {
+                print "invalid"
+            }
         }
     '
 }
@@ -93,15 +98,14 @@ check_pr() {
     details=$(effective_pr_details "$forge_url" "$effective_repository" "$effective_pr")
     declarations=$(instructions_pr_declaration "$forge_url" "$effective_repository" "$effective_pr")
     declaration_count=$(printf '%s\n' "$declarations" | grep -c . || true)
-    if [ "$declaration_count" -ne 1 ]; then
-        echo "effective PR must contain exactly one valid Instructions-PR trailer" >&2
-        echo "add one of these exact lines to the pull-request body:" >&2
-        echo "Instructions-PR: none" >&2
+    if [ "$declaration_count" -gt 1 ] || [ "$declarations" = invalid ]; then
+        echo "effective PR must contain at most one valid Instructions-PR trailer" >&2
+        echo "omit the trailer, or add this exact line to the pull-request body:" >&2
         echo "Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/<number>" >&2
         exit 1
     fi
     instructions_pr=$declarations
-    if [ "$instructions_pr" = none ]; then
+    if [ "$declaration_count" -eq 0 ] || [ "$instructions_pr" = none ]; then
         echo "effective PR declares no shared instruction change"
         exit 0
     fi
@@ -141,12 +145,12 @@ merge_for_commit() {
     effective_pr_number=${effective_pr##*/}
     declarations=$(instructions_pr_declaration "$forge_url" "$repository" "$effective_pr_number")
     declaration_count=$(printf '%s\n' "$declarations" | grep -c . || true)
-    if [ "$declaration_count" -ne 1 ]; then
+    if [ "$declaration_count" -gt 1 ] || [ "$declarations" = invalid ]; then
         echo "merged effective PR has no valid Instructions-PR trailer; skipping paired merge"
         exit 0
     fi
     instructions_pr=$declarations
-    if [ "$instructions_pr" = none ]; then
+    if [ "$declaration_count" -eq 0 ] || [ "$instructions_pr" = none ]; then
         echo "merged effective PR declares no shared instruction change"
         exit 0
     fi
