@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development Flow"
+  short_description: "Load the Ricochet development workflow"
+  default_prompt: "Use $development-flow to load and follow the shared development workflow."
