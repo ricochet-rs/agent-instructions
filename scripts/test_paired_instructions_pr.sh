@@ -82,6 +82,15 @@ run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BOD
 run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_STATE=MERGED "$script" check https://github.com ricochet-rs/example 1
 run_case 1 "must be open, ready, target main, and be conflict free" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_MERGEABLE=CONFLICTING "$script" check https://github.com ricochet-rs/example 1
 run_case 1 "exactly one matching Origin-PR trailer" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_PAIRED_BODY="Origin-PR: https://github.com/ricochet-rs/other/pull/2" "$script" check https://github.com ricochet-rs/example 1
+
+# A pull-request body written or edited in a forge web UI comes back with CRLF endings,
+# which leaves a carriage return on the trailer the parsers anchor with $.
+crlf_none=$(printf 'Instructions-PR: none\r\n')
+crlf_declaration=$(printf 'Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10\r\n')
+crlf_origin=$(printf 'Origin-PR: https://github.com/ricochet-rs/example/pull/1\r\n')
+run_case 0 "declares no shared instruction change" env MOCK_BODY="$crlf_none" "$script" check https://github.com ricochet-rs/example 1
+run_case 0 "is conflict free" env MOCK_BODY="$crlf_declaration" "$script" check https://github.com ricochet-rs/example 1
+run_case 0 "is conflict free" env MOCK_BODY="$crlf_declaration" MOCK_PAIRED_BODY="$crlf_origin" "$script" check https://github.com ricochet-rs/example 1
 run_case 0 "skipping paired merge" env FORGE_TOKEN=test "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 0 "skipping paired merge" "$script" merge-for-commit ricochet-rs/example abc123
 run_case 0 "declares no shared instruction change" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="" "$script" merge-for-commit https://codefloe.com ricochet/example abc123

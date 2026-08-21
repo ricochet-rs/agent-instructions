@@ -31,6 +31,7 @@ instructions_pr_declaration() {
     effective_pr=$3
     body=$(effective_pr_details "$forge_url" "$effective_repository" "$effective_pr" | jq -r .body)
     printf '%s\n' "$body" | awk '
+        { sub(/\r$/, "") }
         /^Instructions-PR:/ {
             if ($0 == "Instructions-PR: none") {
                 print "none"
@@ -67,6 +68,7 @@ verify_instructions_pr() {
     base=$(printf '%s' "$details" | jq -r .baseRefName)
     draft=$(printf '%s' "$details" | jq -r .isDraft)
     origins=$(printf '%s' "$details" | jq -r .body | awk '
+        { sub(/\r$/, "") }
         /^Origin-PR: https:\/\/(github.com\/ricochet-rs|codefloe.com\/ricochet)\/[A-Za-z0-9._-]+\/(pull|pulls)\/[0-9]+$/ {
             sub(/^Origin-PR: /, "")
             print
