@@ -23,6 +23,14 @@ case "$*" in
             '{baseRefName: $baseRefName, body: $body, isDraft: $isDraft, mergeable: $mergeable, state: $state}'
         ;;
     *"api repos/"*"/commits/"*"/pulls"*)
+        if [ -n "${MOCK_API_FAILURES:-}" ]; then
+            failure_count=$(cat "${MOCK_API_FAILURE_COUNT_FILE:?}" 2>/dev/null || printf 0)
+            if [ "$failure_count" -lt "$MOCK_API_FAILURES" ]; then
+                printf '%s\n' "$((failure_count + 1))" >"$MOCK_API_FAILURE_COUNT_FILE"
+                echo "unexpected end of JSON input" >&2
+                exit 1
+            fi
+        fi
         printf '%s\n' "${MOCK_COMMIT_PR:-null}"
         ;;
     *"--json state --jq .state"*)
@@ -35,6 +43,12 @@ case "$*" in
 esac
 EOF
 chmod +x "$temporary_directory/gh"
+
+cat >"$temporary_directory/sleep" <<'EOF'
+#!/bin/sh
+exit 0
+EOF
+chmod +x "$temporary_directory/sleep"
 
 cat >"$temporary_directory/curl" <<'EOF'
 #!/bin/sh
@@ -93,6 +107,8 @@ run_case 0 "is conflict free" env MOCK_BODY="$crlf_declaration" "$script" check 
 run_case 0 "is conflict free" env MOCK_BODY="$crlf_declaration" MOCK_PAIRED_BODY="$crlf_origin" "$script" check https://github.com ricochet-rs/example 1
 run_case 0 "skipping paired merge" env FORGE_TOKEN=test "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 0 "skipping paired merge" "$script" merge-for-commit ricochet-rs/example abc123
+run_case 0 "skipping paired merge" env MOCK_API_FAILURES=1 MOCK_API_FAILURE_COUNT_FILE="$temporary_directory/transient-api-failures" "$script" merge-for-commit ricochet-rs/example abc123
+run_case 1 "failed to look up merged effective PR" env MOCK_API_FAILURES=5 MOCK_API_FAILURE_COUNT_FILE="$temporary_directory/persistent-api-failures" "$script" merge-for-commit ricochet-rs/example abc123
 run_case 0 "declares no shared instruction change" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="" "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 0 "skipping paired merge" env FORGE_TOKEN=test MOCK_MERGED=true MOCK_BODY="Instructions-PR: #10" "$script" merge-for-commit https://codefloe.com ricochet/example abc123
 run_case 0 "paired instructions PR is already merged" env MOCK_BODY="Instructions-PR: https://github.com/ricochet-rs/agent-instructions/pull/10" MOCK_COMMIT_PR="https://github.com/ricochet-rs/example/pull/1" MOCK_STATE=MERGED "$script" merge-for-commit ricochet-rs/example abc123
