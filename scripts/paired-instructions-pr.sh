@@ -122,15 +122,24 @@ merge_for_commit() {
     commit=$3
     attempt=1
     effective_pr=
+    lookup_succeeded=false
     while [ "$attempt" -le 5 ]; do
         case "$forge_url" in
             https://github.com)
-                effective_pr=$(gh api "repos/$repository/commits/$commit/pulls" --jq 'map(select(.merged_at != null)) | first | .html_url')
+                if effective_pr=$(gh api "repos/$repository/commits/$commit/pulls" --jq 'map(select(.merged_at != null)) | first | .html_url'); then
+                    lookup_succeeded=true
+                else
+                    effective_pr=
+                fi
                 ;;
             *)
-                effective_pr=$(curl -fsS -H "Authorization: token $FORGE_TOKEN" \
+                if effective_pr=$(curl -fsS -H "Authorization: token $FORGE_TOKEN" \
                     "$forge_url/api/v1/repos/$repository/commits/$commit/pull" |
-                    jq -r 'select(.merged == true) | .html_url')
+                    jq -r 'select(.merged == true) | .html_url'); then
+                    lookup_succeeded=true
+                else
+                    effective_pr=
+                fi
                 ;;
         esac
         if [ -n "$effective_pr" ] && [ "$effective_pr" != null ]; then
@@ -139,6 +148,10 @@ merge_for_commit() {
         attempt=$((attempt + 1))
         sleep 2
     done
+    if [ "$lookup_succeeded" = false ]; then
+        echo "failed to look up merged effective PR for $commit after 5 attempts" >&2
+        exit 1
+    fi
     if [ -z "$effective_pr" ] || [ "$effective_pr" = null ]; then
         echo "no merged effective PR found for $commit; skipping paired merge"
         exit 0
