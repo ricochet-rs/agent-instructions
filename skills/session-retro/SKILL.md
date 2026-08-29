@@ -35,10 +35,16 @@ When shared guidance changed, include the paired instructions pull-request URL u
 Start with exactly one standalone sentence summarizing the change and its outcome.
 Do not put a heading before this sentence.
 
+Put links to demo assets, such as screenshots and recordings, directly below that sentence.
+Never place them inside the collapsed block, because a reviewer has to reach them without expanding anything.
+Describe each link in the same line that carries it.
+
 Put all supporting explanation, material changes, and validation evidence in a collapsed details block using this exact structure:
 
 ```markdown
 One-sentence summary.
+
+- [What the asset shows](https://workdrive.zohoexternal.com/external/...)
 
 <details>
 <summary>AI Summary</summary>
