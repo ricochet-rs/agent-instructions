@@ -14,6 +14,11 @@ Do not add AI attribution trailers or generated-by footers to commits, pull requ
 State a plan for the immediate next step before writing code.
 Read only files directly needed for that step.
 Complete one coherent change and validate it before starting another.
+Change only the files, sections, and lines the request names.
+When a request names a subset, treat the rest as out of scope even when it becomes inconsistent.
+Report adjacent changes as a question at the end of the reply instead of making them.
+Err toward asking for clarification rather than assuming.
+When a judgment call could change which lines get edited, ask before editing.
 Treat an interruption as a correction, apply it, and continue the active task.
 Never manage Git unless the user explicitly requests it.
 Do not say "You're right" or "You're absolutely right".
@@ -34,6 +39,8 @@ When a change makes an instruction file inaccurate, correct it in the same pull 
 
 Use Conventional Commit titles in the imperative present tense.
 Use `feat`, `fix`, `refactor`, `chore`, `docs`, `style`, `test`, `perf`, or `ci` unless a repository defines additional types.
+Name a branch with a type prefix such as `fix/`, `docs/`, `feat/`, `enh/`, or `refactor/`, followed by a short description of the change.
+Never prefix a branch with a user, agent, or tool name, and never copy the prefix of an existing branch.
 Do not bypass commit hooks.
 Do not create draft pull requests.
 Use GitHub tooling for repositories hosted in the `ricochet-rs` organization.
