@@ -35,6 +35,16 @@ Name functions for what they do.
 Refactor when the requested change exposes a clear quality improvement within scope.
 When a change makes an instruction file inaccurate, correct it in the same pull request.
 
+## Instruction files
+
+Route a piece of knowledge by asking what would make it false.
+Record a rule that a code change would falsify in the closest `CLAUDE.md` or `AGENTS.md`, so the pull request that invalidates it already has the file open.
+Record a decision in the pull request or issue that made it.
+Keep unfinished work in an issue or pull-request body rather than a file in the tree.
+Never park a working plan, a status list, or a design record in a documentation directory that nothing links to and no pipeline reads.
+Write a rule as one imperative line carrying the trap it prevents, and place it in the narrowest scope it applies to.
+Keep operator-facing instructions in the documentation site rather than in an instruction file.
+
 ## Commits and pull requests
 
 Use Conventional Commit titles in the imperative present tense.
