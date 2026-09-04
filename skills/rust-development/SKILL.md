@@ -24,6 +24,8 @@ Do not use `maybe_*` or `should_*` names.
 
 Never call `.unwrap()` on `Option` or `Result`.
 Use `crate::` paths instead of `super::`, except that test modules may use `super::*`.
+Give an item the narrowest visibility that compiles, reserving `pub` for what another crate names and `pub(crate)` for what another module does.
+Do not re-export with `pub use module::*`, which hides where an item is defined and publishes items that needed no visibility beyond their own module.
 Inline variables in format strings.
 Use `format!()` for user-facing strings containing placeholders.
 Do not rely on lint detection when a placeholder names a field that is not in local scope.
