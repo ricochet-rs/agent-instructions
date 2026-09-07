@@ -7,6 +7,7 @@ description: Publish a screenshot, screencast, GIF, or other demo asset to Zoho 
 
 Binary demo assets do not belong in a Git repository.
 Upload them to the shared Zoho WorkDrive folder and reference the returned link.
+Never publish one instead by serving the directory over HTTP and pasting the host address, because a `100.` tailnet IP or a `localhost` port reaches nobody else and stops resolving the moment the server exits.
 
 Use this skill when a reviewer, an issue, or a customer needs to see the result rather than read about it.
 Do not use it for files that belong in version control, such as source, fixtures, or documentation images that must survive independently of the WorkDrive account.
