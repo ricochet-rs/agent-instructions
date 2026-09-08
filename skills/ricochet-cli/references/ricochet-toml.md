@@ -148,6 +148,7 @@ Manage variables with `ricochet app env-vars` or `ricochet task env-vars` instea
 | `rmd-shiny`      | `r`             | app  | `.Rmd` or `.R`                                            |
 | `quarto-r-shiny` | `r`             | app  | `.qmd`, `.Rmd`, `.R`, or `_quarto.yml`                    |
 | `plumber`        | `r`             | app  | Any `.R` file                                             |
+| `r-server`       | `r`             | app  | `_server.yml`, in any directory of the bundle             |
 | `ambiorix`       | `r`             | app  | `.R`                                                      |
 | `r-service`      | `r`             | app  | `.R`                                                      |
 | `serverless-r`   | `r`             | app  | `.R`                                                      |
