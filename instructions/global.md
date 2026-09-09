@@ -29,6 +29,7 @@ Before writing a pull-request description, read and follow `skills/session-retro
 ## Design
 
 Extend the existing implementation instead of adding a parallel structure that performs the same job.
+Keep an existing output, log, or storage path that a change makes look redundant, and propose its removal separately: the product not reading a store back does not mean no operator does.
 Connect new types to the existing domain model.
 Prefer a smaller, cohesive implementation over speculative abstractions.
 Name functions for what they do.
