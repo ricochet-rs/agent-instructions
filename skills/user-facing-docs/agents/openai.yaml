@@ -1,0 +1,4 @@
+interface:
+  display_name: "User-Facing Docs"
+  short_description: "Write docs and copy that ship to users"
+  default_prompt: "Use $user-facing-docs to write this for the people who use ricochet."

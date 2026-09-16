@@ -58,6 +58,8 @@ Use GitHub tooling for repositories hosted in the `ricochet-rs` organization.
 
 ## Prose
 
+Before writing documentation, release notes, UI labels, error messages, or any other text a user reads, read and follow `skills/user-facing-docs/SKILL.md` from this checkout.
+
 Write one sentence per line in Markdown and other prose files.
 Do not hard-wrap sentences.
 Do not use em dashes in user-facing text.

@@ -9,7 +9,8 @@ Before inspecting repository files, planning, editing, or running project comman
 5. Verify that `instructions/global.md`, `.codex-plugin/plugin.json`, and every selected `SKILL.md` exist.
 6. Read `instructions/global.md`.
 7. Read the applicable language skills according to the repository manifests and files involved.
-8. Read and follow `skills/demo-capture/SKILL.md` before recording a user-visible change, and `skills/asset-sharing/SKILL.md` before sharing the result.
+8. Read and follow `skills/user-facing-docs/SKILL.md` before writing documentation, release notes, or other text a user reads.
+9. Read and follow `skills/demo-capture/SKILL.md` before recording a user-visible change, and `skills/asset-sharing/SKILL.md` before sharing the result.
 
 The shared skills may not appear in the startup skill catalog.
 Read their `SKILL.md` files directly from the shared checkout and follow them for the current session.
