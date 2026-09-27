@@ -58,5 +58,5 @@ Supporting details and validation evidence.
 
 Add the `Instructions-PR:` trailer below the details block only when a paired instructions pull request exists.
 Keep workflow trailers outside the details block, each on its own line.
-Put the issue link, such as `Closes #123`, below the details block and never inside it, because an issue referenced inside the collapsed block does not get linked to the pull request.
+Put the issue link, such as `Closes #123`, below the details block and never inside it, because a reviewer does not see an issue referenced inside the collapsed block and cannot tell what the change addresses.
 When handing a description to a person instead of writing it directly, provide the raw Markdown in a fenced block so it can be pasted unchanged.
