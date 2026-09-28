@@ -87,6 +87,12 @@ Run the narrowest useful check during iteration and the repository-required full
 Report commands that were not run and why.
 Do not leave a repository in a known invalid state.
 
+## Diagnosis
+
+Identify the build that produced a failing artifact, by commit, image tag, or asset hash, before attributing the failure to a change.
+When a failure appears in only one build path, such as a preview image, a container, or a release, diff that path's inputs against a working path before reproducing locally.
+Compare build contexts and ignore files, environment variables, profiles, and features, because a local build reads inputs the failing path may not.
+
 ## Reporting
 
 Lead with the result.

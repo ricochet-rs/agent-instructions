@@ -1,6 +1,6 @@
 ---
 name: rust-development
-description: Apply ricochet-rs Rust design, implementation, formatting, linting, and workspace validation conventions when changing Rust source, Cargo manifests, SQLx queries, or Rust tests.
+description: Apply ricochet-rs Rust design, implementation, formatting, linting, and workspace validation conventions when changing Rust source, Cargo manifests, `.cargo/config.toml`, SQLx queries, Rust tests, or the scripts and container images that build Rust.
 ---
 
 # Rust development
@@ -63,3 +63,13 @@ cargo check --workspace --all-targets --all-features
 Run repository tests and pattern checks required by its local instructions.
 Leave one core free for the host when building or testing, because cargo and the test harnesses default to every core and a shared machine stops responding.
 Export `CARGO_BUILD_JOBS=-1`, which cargo reads as the core count minus one, and pass `--test-threads=$(($(nproc) - 1))` to libtest and nextest, since libtest rejects a negative count.
+
+## Build configuration
+
+Keep rustflags that every target needs in a `[target.'cfg(...)']` table of `.cargo/config.toml`.
+Cargo joins `cfg` tables with each other and with `CARGO_TARGET_<TRIPLE>_RUSTFLAGS`, but a `[build]` list and a `[target.<triple>]` list replace one another.
+Never export `RUSTFLAGS` from a script or pipeline step, because it replaces every configured list and silently drops a required flag from that build.
+Pass an extra flag for one target through `CARGO_TARGET_<TRIPLE>_RUSTFLAGS` instead.
+When code compiles differently without a configured `--cfg` and separately built artifacts must agree on it, fail the build with `#[cfg(not(<flag>))] compile_error!` rather than detecting the disagreement at runtime.
+Include `.cargo/config.toml` in every container build context, ignoring the rest of `.cargo/` with `.cargo/*` and `!.cargo/config.toml` rather than the whole directory.
+A `linker` set in `.cargo/config.toml` also becomes the prefix `cc-rs` uses to find C and C++ compilers, so a build image that provides `<prefix>-gcc` must also provide `<prefix>-g++`.
