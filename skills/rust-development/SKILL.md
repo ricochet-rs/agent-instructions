@@ -30,7 +30,8 @@ Inline variables in format strings.
 Use `format!()` for user-facing strings containing placeholders.
 Do not rely on lint detection when a placeholder names a field that is not in local scope.
 Use `tokio::fs` for asynchronous application I/O.
-Size a thread pool or concurrency limit derived from `std::thread::available_parallelism()` to one less than the core count, with a floor of one, so parallel work never starves the server of the core it needs to keep serving requests.
+Size a CPU-bound pool or concurrency limit derived from `std::thread::available_parallelism()`, such as a rayon pool or a cap on `spawn_blocking` work, to one less than the core count with a floor of one, so parallel work never starves the server of the core it needs to keep serving requests.
+Leave the async runtime's worker threads alone, because they are the server doing that serving and park when idle.
 
 ## Tracing
 
@@ -62,3 +63,5 @@ cargo check --workspace --all-targets --all-features
 ```
 
 Run repository tests and pattern checks required by its local instructions.
+Leave one core free for the host when building or testing, because cargo and the test harnesses default to every core and a shared machine stops responding.
+Export `CARGO_BUILD_JOBS=-1`, which cargo reads as the core count minus one, and pass `--test-threads=$(($(nproc) - 1))` to libtest and nextest, since libtest rejects a negative count.
