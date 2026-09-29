@@ -30,6 +30,7 @@ Inline variables in format strings.
 Use `format!()` for user-facing strings containing placeholders.
 Do not rely on lint detection when a placeholder names a field that is not in local scope.
 Use `tokio::fs` for asynchronous application I/O.
+Size a thread pool or concurrency limit derived from `std::thread::available_parallelism()` to one less than the core count, with a floor of one, so parallel work never starves the server of the core it needs to keep serving requests.
 
 ## Tracing
 
