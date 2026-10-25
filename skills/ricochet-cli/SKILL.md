@@ -16,6 +16,13 @@ Write `_ricochet.toml` by hand instead of calling `ricochet init` from an agent 
 Under the same conditions `ricochet deploy` fails with `No _ricochet.toml found` rather than offering to create one.
 
 Pass `-F json` to any command whose output must be parsed.
+Under `-F json` and `-F yaml` stdout carries the serialised payload and nothing else, while status lines, hints and links go to stderr.
+`ricochet deploy -F json` is the exception: it writes one JSON event per line, so read the last line.
+That line is `{"event":"done",...}` with the server's response, which holds the content `id` and, for a local deploy, the `deployment_id`.
+On failure it is `{"event":"error",...}` with a `kind` of `project`, `auth`, `network`, `rejected` or `server`.
+With `--follow`, the deployment's log lines come before that last line, which waits until the deployment settles.
+A server that reports restore progress adds `{"event":"queued"}` while the restore waits its turn and `{"event":"restoring"}` once it starts, before the log lines.
+Older servers send neither, so never wait for one.
 Pass `--debug` to surface the underlying request and response when a command fails.
 
 ## Connect to a server
