@@ -38,7 +38,7 @@ steps:
       - actionlint templates/github-instructions.yaml
 
   - name: zizmor
-    image: reg.ricochet.rs/ghcr.io/zizmorcore/zizmor:1.31.1
+    image: reg.ricochet.rs/ghcr.io/zizmorcore/zizmor:1.32.0
     depends_on: []
     commands:
       - zizmor --pedantic templates/github-instructions.yaml
