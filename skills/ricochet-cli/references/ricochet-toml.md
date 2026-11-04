@@ -121,7 +121,7 @@ An item can only tighten the server-wide policy, never relax it, because the res
 | Key               | Type      | Default | Notes                                  |
 | ----------------- | --------- | ------- | -------------------------------------- |
 | `max_age_days`    | integer   | unset   | Delete deployments older than this.    |
-| `max_deployments` | integer   | `20`    | Deployments kept per item.             |
+| `max_deployments` | integer   | unset   | Unset uses the server limit.           |
 | `max_bundle_size` | byte size | `100MB` | Largest bundle the server will accept. |
 
 ## `[env_vars]`
