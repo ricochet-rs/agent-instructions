@@ -44,7 +44,7 @@ steps:
       - zizmor --pedantic templates/github-instructions.yaml
 
   - name: crow
-    image: codefloe.com/crowci/crow-cli:v6.12.0
+    image: codefloe.com/crowci/crow-cli:v7.0.0
     depends_on: []
     commands:
       - crow lint --strict .crow/
