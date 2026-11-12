@@ -56,6 +56,10 @@ Do not bypass commit hooks.
 Do not create draft pull requests.
 Use GitHub tooling for repositories hosted in the `ricochet-rs` organization.
 
+## Interface design
+
+Before reshaping a page or component whose layout is still open, read and follow `skills/design-mockups/SKILL.md` from this checkout.
+
 ## Prose
 
 Before writing documentation, release notes, UI labels, error messages, or any other text a user reads, read and follow `skills/user-facing-docs/SKILL.md` from this checkout.
