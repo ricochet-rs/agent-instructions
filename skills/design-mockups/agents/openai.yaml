@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Mockups"
+  short_description: "Mock up and lint UI layouts in FigCraft"
+  default_prompt: "Use $design-mockups to compare layouts for this screen in FigCraft before coding it."
