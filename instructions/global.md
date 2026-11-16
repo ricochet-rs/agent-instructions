@@ -32,6 +32,7 @@ Extend the existing implementation instead of adding a parallel structure that p
 Keep an existing output, log, or storage path that a change makes look redundant, and propose its removal separately: the product not reading a store back does not mean no operator does.
 Connect new types to the existing domain model.
 Prefer a smaller, cohesive implementation over speculative abstractions.
+Keep a configured limit bounding what its name says: decide what goes first within the limit instead of adding a parallel allowance that multiplies it.
 Name functions for what they do.
 Refactor when the requested change exposes a clear quality improvement within scope.
 When a change makes an instruction file inaccurate, correct it in the same pull request.
