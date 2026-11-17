@@ -85,6 +85,19 @@ Do not use comments to narrate history, justify what code does not do, or recoun
 Comment surprising script and Containerfile behavior rather than routine commands or package lists.
 Do not generalize a review request beyond the code or comment it addresses.
 
+## Repository README
+
+Open the `README.md` of every new repository with a centered header, in this order:
+
+1. A centered logo in a `picture` element, using `assets/logo-dark.svg` in dark mode and `assets/logo-light.svg` otherwise.
+2. A centered `h1` with the product name and what the repository is, such as "ricochet cross-platform cli".
+3. A centered one-sentence description.
+4. A centered row of links separated by `·`, starting with Docs and Website.
+5. A `---` divider, then the body.
+
+Copy the logo files and the header markup from `ricochet-rs/cli`.
+Allow `h1`, `picture`, and `source` in `MD033`, set `allow_preamble: true` in `MD041`, and use `---` for `MD035` in `.markdownlint.yaml`, because markdownlint rejects this header otherwise.
+
 ## Validation
 
 Use repository-provided commands such as `just`, formatters, linters, and test targets.
