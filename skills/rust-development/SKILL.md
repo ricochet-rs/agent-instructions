@@ -10,7 +10,9 @@ Extend the structure already responsible for the behavior instead of adding a pa
 Use enums rather than strings or integers for finite value sets so invalid states are unrepresentable.
 Use associated methods for behavior owned by a type.
 Use free functions only for behavior that belongs to no type.
-Inline helpers used only once or twice.
+Inline helpers used only once or twice, and do not count a unit test as a caller.
+Bind two values with two `let` statements instead of building a tuple only to destructure it.
+Type a collection with a turbofish such as `collect::<Vec<_>>()` or leave it to inference, never with an annotation on the `let` binding.
 Do not use boolean parameters.
 Do not use trait objects such as `Arc<dyn Trait>` or `Box<dyn Trait>`.
 Do not use `serde_json::Value` as a field type.
