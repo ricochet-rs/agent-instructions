@@ -30,8 +30,8 @@ Every other table is optional, and several are rejected outright for the wrong c
 
 | Key        | Type | Required | Notes                                                      |
 | ---------- | ---- | -------- | ---------------------------------------------------------- |
-| `name`     | enum | yes      | `r`, `python`, or `julia`. Must agree with `content_type`. |
-| `packages` | enum | yes      | `renv.lock`, `uv.lock`, or `Manifest.toml`.                |
+| `name`     | enum | yes      | `r`, `julia`, or `python`. Must agree with `content_type`. |
+| `packages` | enum | yes      | `renv.lock`, `Manifest.toml`, or `uv.lock`.                |
 
 Python items must use `packages = "uv.lock"`; any other value fails validation with `Package file required`.
 The named lockfile must exist in the deployed directory, or in a parent directory for `uv.lock`.
@@ -102,13 +102,13 @@ Unset keys fall back to the server-wide defaults.
 ## `[repositories]`
 
 Package sources, keyed by language.
-R takes a named map, while Python and Julia take arrays of URLs.
+R takes a named map, while Julia and Python take arrays of URLs.
 
 | Key               | Type                 | Default | Notes                                                                                                         |
 | ----------------- | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
 | `r`               | table of name to URL | unset   | For example `{ CRAN = "https://cloud.r-project.org" }`. Unnamed lists are ignored with a warning.             |
-| `python`          | array of URLs        | unset   | Named maps are ignored with a warning.                                                                        |
 | `julia`           | array of URLs        | unset   | Named maps are ignored with a warning.                                                                        |
+| `python`          | array of URLs        | unset   | Named maps are ignored with a warning.                                                                        |
 | `allow_overrides` | bool                 | `true`  | Read from the server configuration. When the server sets it to false, these item-level sources are discarded. |
 
 Item sources are merged into the server sources, and the item wins on a name collision.
