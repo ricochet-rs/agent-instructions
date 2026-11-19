@@ -16,10 +16,14 @@ if [ ! -d "$checkout/.git" ]; then
 fi
 
 actual_origin=$(git -C "$checkout" remote get-url origin)
-if [ "$actual_origin" != "https://github.com/ricochet-rs/agent-instructions.git" ]; then
-    echo "unexpected agent instructions origin: $actual_origin" >&2
-    exit 1
-fi
+case "$actual_origin" in
+    # Older consumer instructions cloned over SSH, so existing caches may use either URL.
+    https://github.com/ricochet-rs/agent-instructions.git | git@github.com:ricochet-rs/agent-instructions.git) ;;
+    *)
+        echo "unexpected agent instructions origin: $actual_origin" >&2
+        exit 1
+        ;;
+esac
 
 if [ -n "$(git -C "$checkout" status --porcelain)" ]; then
     echo "agent instructions checkout has local changes: $checkout" >&2
