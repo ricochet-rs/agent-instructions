@@ -90,8 +90,8 @@ Order headings by how the reader moves, not by how the system is built.
 - Prefer a list to a paragraph.
 - Three sentences is a long paragraph.
 - One callout at a time, never two in a row.
-- Bold a literal UI label or command, and nothing else.
-- Use inline code for anything the reader types.
+- Bold a literal UI label, and nothing else.
+- Use inline code for anything the reader types, including commands, flags, and file names.
 - Use italics rarely, for a single word of emphasis.
 - At most one emoji per page, and never in a heading 👍
 
@@ -104,7 +104,7 @@ Order headings by how the reader moves, not by how the system is built.
 
 Banned punctuation and phrasing:
 
-- Em dash and semicolon
+- Em dash, a spaced hyphen used as a dash, and semicolon
 - "No x, no y, just z" and every other rule-of-three flourish
 - "It is not just x, it is y"
 - "Seamlessly", "robust", "leverage", "unlock", "supercharge", "delve", "game-changer"
@@ -123,6 +123,6 @@ Banned punctuation and phrasing:
 - [ ] Title is 40 characters or fewer
 - [ ] The first screen contains the action
 - [ ] No package, table, flag, source path, or function name appears
-- [ ] No em dash and no semicolon
+- [ ] No em dash, no spaced hyphen used as a dash, and no semicolon
 - [ ] Every bullet earns its line
 - [ ] Release notes also follow the release-note rules in [global instructions](../../instructions/global.md)

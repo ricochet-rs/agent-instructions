@@ -74,7 +74,9 @@ Put code-block comments on their own line above the command.
 For user-facing release notes, use section and area headings to classify changes.
 Write each item as one bullet containing one complete sentence that leads with the user-visible behavior or outcome in present tense.
 Do not prefix an item with a bold title or a colon-separated label that restates the sentence.
-Use bold only for a literal UI label, command, or named feature that readers must recognize, and incorporate it naturally into the sentence.
+Use bold only for a literal UI label or named feature that readers must recognize, and incorporate it naturally into the sentence.
+Format a command, subcommand, flag, file name, or configuration key as inline code, never bold, because the docs Vale spell check skips only code and rejects names such as `mcp`.
+Do not use a spaced hyphen as a dash, because the docs readability check rejects any mid-sentence dash.
 Omit maintenance, CI, dependency update, and internal refactor entries unless they change user-visible behavior.
 
 Names should carry the explanation in code.
