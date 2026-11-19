@@ -10,6 +10,7 @@ The CI templates load the paired-instructions guard from this repository at runt
 
 Copy the applicable template into a consuming repository.
 Keep existing repository-specific instructions below the template's repository section.
+Merge `templates/claude-settings.json` into the consuming repository's `.claude/settings.json`, so Claude Code synchronizes and loads the global instructions once per session instead of fetching them on every request.
 
 An agent must stop before modifying the consuming repository when it cannot authenticate to GitHub, synchronize `origin/main`, or validate the required files.
 
