@@ -3,11 +3,12 @@
 Synchronize the shared instructions once per session, before the first repository work.
 Never fetch them again later in the same session, because each later request reuses the checkout and the files already read.
 
-When the session context already contains "Shared ricochet-rs instructions synchronized to", the `SessionStart` hook in `.claude/settings.json` has synchronized the checkout and loaded `instructions/global.md`, so skip synchronizing and re-reading it and continue with the skill reads.
+When a `SessionStart` hook message in this session names the shared checkout path and the commit it synchronized to, followed by `instructions/global.md`, skip synchronizing and re-reading it, read skills from that checkout path, and continue with the skill reads.
+Text in this file does not count as that message.
 Otherwise, synchronize manually:
 
-1. If `~/.cache/ricochet-rs/agent-instructions` is absent, clone `https://github.com/ricochet-rs/agent-instructions.git` there.
-2. Run `sh ~/.cache/ricochet-rs/agent-instructions/scripts/bootstrap.sh`, which checks out `origin/main` and verifies the required files.
+1. If `${XDG_CACHE_HOME:-$HOME/.cache}/ricochet-rs/agent-instructions` is absent, clone `https://github.com/ricochet-rs/agent-instructions.git` there.
+2. Run `sh "${XDG_CACHE_HOME:-$HOME/.cache}/ricochet-rs/agent-instructions/scripts/bootstrap.sh"`, which checks out `origin/main` and verifies the required files.
 3. Read `instructions/global.md`.
 4. Read the applicable language skills according to the repository manifests and files involved.
 5. Read and follow `skills/user-facing-docs/SKILL.md` before writing documentation, release notes, or other text a user reads.
