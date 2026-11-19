@@ -11,9 +11,6 @@ Do not add AI attribution trailers or generated-by footers to commits, pull requ
 
 ## Planning and execution
 
-State a plan for the immediate next step before writing code.
-Read only files directly needed for that step.
-Complete one coherent change and validate it before starting another.
 Change only the files, sections, and lines the request names.
 When a request names a subset, treat the rest as out of scope even when it becomes inconsistent.
 Report adjacent changes as a question at the end of the reply instead of making them.
