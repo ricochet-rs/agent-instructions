@@ -2,15 +2,12 @@
 
 Before inspecting repository files, planning, editing, or running project commands, ensure the shared instructions are available.
 
-1. Use `~/.cache/ricochet-rs/agent-instructions` as the shared checkout.
-2. If the checkout is absent, clone `https://github.com/ricochet-rs/agent-instructions.git` there.
-3. Fetch `origin/main` and check it out in detached-HEAD mode.
-4. Verify that cached `HEAD` exactly matches `origin/main`.
-5. Verify that `instructions/global.md`, `.codex-plugin/plugin.json`, and every selected `SKILL.md` exist.
-6. Read `instructions/global.md`.
-7. Read the applicable language skills according to the repository manifests and files involved.
-8. Read and follow `skills/user-facing-docs/SKILL.md` before writing documentation, release notes, or other text a user reads.
-9. Read and follow `skills/demo-capture/SKILL.md` before recording a user-visible change, and `skills/asset-sharing/SKILL.md` before sharing the result.
+1. If `~/.cache/ricochet-rs/agent-instructions` is absent, clone `https://github.com/ricochet-rs/agent-instructions.git` there.
+2. Run `sh ~/.cache/ricochet-rs/agent-instructions/scripts/bootstrap.sh`, which checks out `origin/main` and verifies the required files.
+3. Read `instructions/global.md`.
+4. Read the applicable language skills according to the repository manifests and files involved.
+5. Read and follow `skills/user-facing-docs/SKILL.md` before writing documentation, release notes, or other text a user reads.
+6. Read and follow `skills/demo-capture/SKILL.md` before recording a user-visible change, and `skills/asset-sharing/SKILL.md` before sharing the result.
 
 The shared skills may not appear in the startup skill catalog.
 Read their `SKILL.md` files directly from the shared checkout and follow them for the current session.
