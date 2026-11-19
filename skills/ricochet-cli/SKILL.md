@@ -82,7 +82,7 @@ cron = "0 9 * * 1-5"
 The first successful `ricochet deploy` writes the assigned ULID back into the file, and every later deploy of that directory updates the same item.
 Most `app` and `task` subcommands read that ID from the local file when the `ID` argument is omitted, so run them from the content directory or point `-p` at the file.
 
-The lockfile named by `language.packages` must exist before deploying: `renv.lock` for R, `uv.lock` for Python, and `Manifest.toml` for Julia.
+The lockfile named by `language.packages` must exist before deploying: `renv.lock` for R, `Manifest.toml` for Julia, and `uv.lock` for Python.
 Python items additionally need a `.python-version`.
 For both files the CLI searches parent directories, which is how uv workspaces keep a single lockfile at the workspace root.
 
@@ -193,7 +193,7 @@ The same four subcommands exist under `ricochet task`.
 | `Cannot run init in non-interactive mode`                                    | `ricochet init` needs a TTY. Write `_ricochet.toml` by hand using the schema reference.                                                                                                          |
 | `No _ricochet.toml found in <dir>`                                           | Non-interactive deploy without a config file. Create the file, or point the path argument at the directory that holds it.                                                                        |
 | `Path must be a directory containing _ricochet.toml`                         | The path argument pointed at a file. Pass the containing directory.                                                                                                                              |
-| ``Required package file `renv.lock` not found``                              | Run `renv::snapshot()` in R, `uv init` for `uv.lock`, or `Pkg.instantiate()` in Julia.                                                                                                           |
+| ``Required package file `renv.lock` not found``                              | Run `renv::snapshot()` in R, `Pkg.instantiate()` in Julia, or `uv init` for `uv.lock`.                                                                                                           |
 | ``Please create a `.python-version` via `uv python pin```                    | Python items need a pinned interpreter version beside `uv.lock` or at the workspace root.                                                                                                        |
 | `403` while redeploying an existing ID                                       | The ID does not exist on this server, the key lacks permission, or the item belongs to another server. Verify with `ricochet app list`, check `-S`, or delete `content.id` to create a new item. |
 | `Environment variables can only be set on a content item's first deployment` | Redeploy without `-e`, then use `ricochet app env-vars set`.                                                                                                                                     |

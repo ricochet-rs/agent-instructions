@@ -69,6 +69,7 @@ Write one sentence per line in Markdown and other prose files.
 Do not hard-wrap sentences.
 Do not use em dashes in user-facing text.
 Write two sentences, or use a comma, colon, or parentheses.
+List the supported languages as R, Julia, and Python in prose, UI labels, menus, tabs, and tables, because every other order gets corrected in review.
 Put code-block comments on their own line above the command.
 
 For user-facing release notes, use section and area headings to classify changes.
