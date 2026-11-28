@@ -79,6 +79,7 @@ Omit maintenance, CI, dependency update, and internal refactor entries unless th
 
 Names should carry the explanation in code.
 Use comments for information a name cannot express.
+Before writing or editing a code comment, read and follow `skills/humanizer/SKILL.md` from this checkout.
 Use module-level documentation when it explains the purpose of a module.
 Keep method documentation to one concise line whenever possible.
 Do not use comments to narrate history, justify what code does not do, or recount the bug that motivated a change.
